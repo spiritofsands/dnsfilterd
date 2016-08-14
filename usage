@@ -1,0 +1,4 @@
+./dnsfilterd 5300 /<dir>/blacklist
+ps -u kos | grep dnsfilterd
+nslookup google.com 127.0.0.1 -port=5300
+cat /tmp/dnsfilterd.lock | xargs kill -s SIGTERM
