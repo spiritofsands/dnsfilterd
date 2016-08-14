@@ -6,7 +6,7 @@
 
 #include "rfc_structs.h"
 #include "blacklist_loader.h"
-#include "printAndExit.h"
+#include "log.h"
 
 typedef unsigned char u_char;
 typedef unsigned int u_int;
@@ -31,7 +31,7 @@ void writeDomainName(u_char *buffer,
 
 u_int charsBeforeDot(char const *str, u_int pos);
 
-void checkIfBlacklisted(u_char *, u_int *receivedSize,
+void checkIfBlacklisted(u_char *, int *receivedSize,
                           struct Blacklist *const blacklist);
 void readQuestion(struct Question * const q,
                   u_char const data[],

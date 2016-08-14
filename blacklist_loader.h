@@ -6,7 +6,7 @@
 #include <string.h>
 
 #include "rfc_structs.h"
-#include "printAndExit.h"
+#include "log.h"
 
 struct Blacklist
 {

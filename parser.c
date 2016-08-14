@@ -1,7 +1,7 @@
 #include "parser.h"
 #include "rfc_structs.h"
 
-void checkIfBlacklisted(u_char *buffer, u_int *receivedSize,
+void checkIfBlacklisted(u_char *buffer, int *receivedSize,
                            struct Blacklist *const blacklist)
 {
     static struct DNSpacket packet;
@@ -23,7 +23,7 @@ void checkIfBlacklisted(u_char *buffer, u_int *receivedSize,
     packet.header.authorityCount = buffer[8] << 8 | buffer[9];
     packet.header.additionalCount = buffer[10] << 8 | buffer[11];
 
-    puts("\nHeader:");
+    logMessage("\nHeader:");
     printHeader(&packet.header);
 
     //question
@@ -35,7 +35,7 @@ void checkIfBlacklisted(u_char *buffer, u_int *receivedSize,
     {
         readQuestion(&packet.questionsArray[index],
                      buffer, &bufferIndex);
-        printf("\nQuestion #%d:\n", index);
+        logMessage("\nQuestion:\n");
         printQuestion(&packet.questionsArray[index]);
     }
 
@@ -46,7 +46,7 @@ void checkIfBlacklisted(u_char *buffer, u_int *receivedSize,
     {
         readResourceRecord(&packet.answersArray[index],
                            buffer, &bufferIndex);
-        printf("\nAnswer #%d:\n", index);
+        logMessage("\nAnswer:\n");
         printResourceRecord(&packet.answersArray[index]);
     }
 
@@ -57,7 +57,7 @@ void checkIfBlacklisted(u_char *buffer, u_int *receivedSize,
     {
         readResourceRecord(&packet.authorityArray[index],
                            buffer, &bufferIndex);
-        printf("\nAuthority #%d:\n", index);
+        logMessage("\nAuthority #%d:\n");
         printResourceRecord(&packet.authorityArray[index]);
     }
 
@@ -68,11 +68,11 @@ void checkIfBlacklisted(u_char *buffer, u_int *receivedSize,
     {
         readResourceRecord(&packet.additionalArray[index],
                            buffer, &bufferIndex);
-        printf("\nadditional #%d:\n", index);
+        logMessage("\nadditional:\n");
         printResourceRecord(&packet.additionalArray[index]);
     }
 
-    puts("\nSuccessfully parsed");
+    logMessage("\nSuccessfully parsed");
 
 
     //determining if blacklisted
@@ -120,7 +120,7 @@ void checkIfBlacklisted(u_char *buffer, u_int *receivedSize,
 
     //filtering
     if (isBlacklisted) {
-        puts("\nFiltered");
+        logMessage("\nFiltered");
 
         createPacketWithCustomHost(newBuffer, &newLength,
                                    &packet,

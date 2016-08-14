@@ -71,3 +71,6 @@ Thumbs.db
 *.dll
 *.exe
 
+CMakeLists.txt
+CMakeLists.txt.user
+build-dnsfilterd-Desktop_Qt_5_7_0_GCC_64bit-Debug/

@@ -10,7 +10,7 @@ void readBlacklist(char *fileName, struct Blacklist *b)
     char str[MAX_DOMAIN_LENGTH];
     char *strPtr = str,
             *domainPtr;
-    u_int hostCounter, domainCounter, lineCounter;
+    u_int hostCounter, domainCounter;
     u_int maxDomainLengthMinus1 = MAX_DOMAIN_LENGTH-1;
     struct in_addr host;
     u_int i;
@@ -35,19 +35,15 @@ void readBlacklist(char *fileName, struct Blacklist *b)
         b->domains[i] = malloc(sizeof(char)*MAX_DOMAIN_LENGTH);
 
     rewind(fPtr);
-    hostCounter = domainCounter = lineCounter = 0;
+    hostCounter = domainCounter = 0;
     while ( !feof(fPtr) ) {
-        ++lineCounter;
-
         fgets(str, MAX_DOMAIN_LENGTH, fPtr);
         str[maxDomainLengthMinus1] = '\0';
 
         if ( isdigit(str[0]) ) {
-            if (inet_aton(str, &host) == 0) {//invalid
-                printf("Invalid host in blacklist "
-                       "(line %u)", lineCounter);
-                exit(1);
-            }
+            if (inet_aton(str, &host) == 0)
+                printAndExit("Invalid host in blacklist");
+
             b->hosts[hostCounter++] = host.s_addr;
         }
         else if ( isalpha(str[0]) ) {
@@ -65,10 +61,8 @@ void readBlacklist(char *fileName, struct Blacklist *b)
         else if ( b->ultimateHost == 0 &&
                   str[0] == '=' )
         {
-            if (inet_aton(str+1, &host) == 0) {//invalid
-                printf("Invalid ultimate host in blacklist "
-                       "(line %u)", lineCounter);
-                exit(1);
+            if (inet_aton(str+1, &host) == 0) {
+                printAndExit("Invalid host in blacklist");
             }
             b->ultimateHost = htonl(host.s_addr);
         }
@@ -76,14 +70,11 @@ void readBlacklist(char *fileName, struct Blacklist *b)
 
     fclose(fPtr);
 
-    if (b->ultimateHost == 0) {
-        puts("No ultimate host in blacklist "
+    if (b->ultimateHost == 0)
+        printAndExit("No ultimate host in blacklist "
                "(e.g. =123.123.123.123)");
-        exit(1);
-    }
 
-    printf("Read %lu hosts and %lu domains\n",
-           b->hostsNumber, b->domainsNumber);
+    logMessage("Blacklist is loaded");
 }
 
 void freeBlacklistMemory(struct Blacklist *b)
