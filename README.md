@@ -16,10 +16,10 @@ What not:
 
 #Usage:
 Run:
-./dnsfilterd 5300 /<dir>/blacklist
+./dnsfilterd 5300 /%dir%/blacklist
 
-Chech if running:
-ps -u <user> | grep dnsfilterd
+Check if running:
+ps -u %user% | grep dnsfilterd
 
 Make request:
 nslookup google.com 127.0.0.1 -port=5300
