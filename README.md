@@ -6,7 +6,8 @@ What works:
 - redirection of DNS queries to openDNS server
 - requests are UDP
 - blacklist with domains and hosts filtering
-- running as daemon
+- running as daemon (with lock file)
+- log with packets parsing on /tmp/dnsfilterd.log
 
 What not:
 - no cache
