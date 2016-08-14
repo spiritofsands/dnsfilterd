@@ -1,0 +1,4 @@
+#ifndef BLACKLIST_LOADER_H
+#define BLACKLIST_LOADER_H
+
+#endif // BLACKLIST_LOADER_H

@@ -1,0 +1,22 @@
+ID			c5 66
+FLAGS 	81 80
+QDCOUNT	00 01
+ANSCOUNT	00 01
+NSCOUNT	00 00
+ARCOUNT	00 00
+
+=question=
+NAME		06 : 67 6f 6f 67 6c 65
+			03 : 63 6f 6d
+			00
+TYPE		00 01
+CLASS		00 01
+
+=rr=
+NAME		c0 ~ 11 00 00 00
+PTR		0c = 12 
+TYPE		00 01
+CLASS		00 01
+TTL		00 00 01 2c = 300s
+IS_IP		00 04 = yes, 4 byte
+IP			d8 3a d6 ee
